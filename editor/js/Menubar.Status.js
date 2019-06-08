@@ -4,11 +4,14 @@
 
 Menubar.Status = function ( editor ) {
 
+	var strings = editor.strings;
+
 	var container = new UI.Panel();
 	container.setClass( 'menu right' );
 
-	var checkbox = new UI.Checkbox( editor.config.getKey( 'autosave' ) );
-	checkbox.onChange( function () {
+	var autosave = new UI.THREE.Boolean( editor.config.getKey( 'autosave' ), strings.getKey( 'menubar/status/autosave' ) );
+	autosave.text.setColor( '#888' );
+	autosave.onChange( function () {
 
 		var value = this.getValue();
 
@@ -21,21 +24,17 @@ Menubar.Status = function ( editor ) {
 		}
 
 	} );
-	container.add( checkbox );
-
-	var text = new UI.Text( 'autosave' );
-	text.setClass( 'title' );
-	container.add( text );
+	container.add( autosave );
 
 	editor.signals.savingStarted.add( function () {
 
-		text.setTextDecoration( 'underline' );
+		autosave.text.setTextDecoration( 'underline' );
 
 	} );
 
 	editor.signals.savingFinished.add( function () {
 
-		text.setTextDecoration( 'none' );
+		autosave.text.setTextDecoration( 'none' );
 
 	} );
 
